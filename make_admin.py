@@ -1,7 +1,6 @@
 from app.database import SessionLocal, engine
 from app.models import User, RoleEnum, Base
 
-# This line solves the error by ensuring all tables exist before querying
 Base.metadata.create_all(bind=engine)
 
 TARGET_USERNAME = "admin" 
