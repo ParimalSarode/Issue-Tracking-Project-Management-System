@@ -3,7 +3,6 @@ from typing import Optional, List
 from datetime import datetime
 from .models import RoleEnum, StatusEnum
 
-# --- User Schemas ---
 class UserBase(BaseModel):
     username: str
 
@@ -20,7 +19,6 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-# --- Project Schemas ---
 class ProjectBase(BaseModel):
     name: str
     description: Optional[str] = None
@@ -34,7 +32,6 @@ class ProjectResponse(ProjectBase):
     
     model_config = ConfigDict(from_attributes=True)
 
-# --- Issue Schemas ---
 class IssueBase(BaseModel):
     title: str
     description: Optional[str] = None
