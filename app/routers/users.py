@@ -7,13 +7,11 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post("/register", response_model=schemas.UserResponse, status_code=status.HTTP_201_CREATED)
 def register_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
-    # Check if username exists
     db_user = db.query(models.User).filter(models.User.username == user.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
         
     hashed_pwd = auth.get_password_hash(user.password)
-    # The first registered user could be made an admin manually, or we default to developer
     new_user = models.User(username=user.username, hashed_password=hashed_pwd)
     
     db.add(new_user)
