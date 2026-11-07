@@ -11,7 +11,6 @@ def create_project(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(auth.get_current_user)
 ):
-    # Role-based permission check
     if current_user.role != models.RoleEnum.admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, 
@@ -31,5 +30,4 @@ def get_projects(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(auth.get_current_user)
 ):
-    # Pagination via skip/limit
     return db.query(models.Project).offset(skip).limit(limit).all()
