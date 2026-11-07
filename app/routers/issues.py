@@ -11,7 +11,6 @@ def create_issue(
     db: Session = Depends(database.get_db),
     current_user: models.User = Depends(auth.get_current_user)
 ):
-    # Validate project exists
     project = db.query(models.Project).filter(models.Project.id == issue.project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -33,7 +32,6 @@ def get_issues(
 ):
     query = db.query(models.Issue)
     
-    # Search and Filter logic
     if project_id:
         query = query.filter(models.Issue.project_id == project_id)
     if status:
@@ -52,7 +50,6 @@ def update_issue(
     if not db_issue:
         raise HTTPException(status_code=404, detail="Issue not found")
         
-    # exclude_unset=True ensures we only update fields the user actually sent
     update_data = issue_update.model_dump(exclude_unset=True)
     for key, value in update_data.items():
         setattr(db_issue, key, value)
